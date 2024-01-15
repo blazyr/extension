@@ -1,3 +1,6 @@
+use anyhow::Result;
+use std::rc::Rc;
+
 #[derive(Clone)]
 pub enum EntityType {
     App,
