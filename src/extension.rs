@@ -12,6 +12,6 @@ pub struct Entity {
     pub name: String,
     pub description: Option<String>,
     pub alias: Option<String>,
-    pub command: Rc<Box<dyn Fn() -> Result<()>>>,
+    pub command: Rc<Box<dyn Fn() -> Result<String>>>,
     pub r#type: EntityType,
 }
