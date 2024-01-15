@@ -38,7 +38,7 @@ dependencies = [
 [[package]]
 name = "spotlight-macros"
 version = "0.1.0"
-source = "git+https://github.com/rspotlight/macros.git#c1745824d11abd06b664eec3e7e2ac06b1d1c279"
+source = "git+https://github.com/rspotlight/macros.git#de309970e8742d3d6dc1b957bb254dfbe540b407"
 dependencies = [
  "proc-macro2",
  "quote",
