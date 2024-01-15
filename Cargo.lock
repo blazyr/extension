@@ -31,7 +31,18 @@ name = "spotlight-extension"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "spotlight-macros",
  "thiserror",
+]
+
+[[package]]
+name = "spotlight-macros"
+version = "0.1.0"
+source = "git+https://github.com/rspotlight/macros.git#c1745824d11abd06b664eec3e7e2ac06b1d1c279"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
