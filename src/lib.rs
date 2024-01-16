@@ -14,9 +14,11 @@ use abi_stable::{
 #[derive(StableAbi)]
 #[sabi(kind(Prefix))]
 pub struct Plugin {
-    #[sabi(last_prefix_field)]
+    pub on_mount: extern "C" fn() -> (),
     pub entities: extern "C" fn() -> RVec<REntity>,
     pub on_entity_action: extern "C" fn(u64) -> (),
+    #[sabi(last_prefix_field)]
+    pub on_dispose: extern "C" fn() -> (),
 }
 
 impl RootModule for Plugin_Ref {
