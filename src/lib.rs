@@ -6,7 +6,7 @@ use abi_stable::{
     library::RootModule,
     package_version_strings,
     sabi_types::VersionStrings,
-    std_types::{ROption, RString, RVec},
+    std_types::{RBoxError, ROption, RResult, RString, RVec},
     StableAbi,
 };
 
@@ -14,11 +14,11 @@ use abi_stable::{
 #[derive(StableAbi)]
 #[sabi(kind(Prefix))]
 pub struct Plugin {
-    pub on_mount: extern "C" fn() -> (),
-    pub entities: extern "C" fn() -> RVec<REntity>,
-    pub on_entity_action: extern "C" fn(u64) -> (),
+    pub on_mount: extern "C" fn() -> RResult<(), RBoxError>,
+    pub entities: extern "C" fn() -> RResult<RVec<REntity>, RBoxError>,
+    pub on_entity_action: extern "C" fn(u64) -> RResult<(), RBoxError>,
     #[sabi(last_prefix_field)]
-    pub on_dispose: extern "C" fn() -> (),
+    pub on_dispose: extern "C" fn() -> RResult<(), RBoxError>,
 }
 
 impl RootModule for Plugin_Ref {
@@ -36,7 +36,7 @@ impl RootModule for Plugin_Ref {
 #[derive(Debug, Clone, PartialEq, Eq, StableAbi)]
 pub struct REntity {
     pub id: u64,
-    pub name: ROption<RString>,
+    pub name: RString,
     pub description: ROption<RString>,
     pub alias: ROption<RString>,
 }

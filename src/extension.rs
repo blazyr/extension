@@ -3,7 +3,7 @@ use crate::REntity;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Entity {
     id: u64,
-    pub name: Option<String>,
+    pub name: String,
     pub description: Option<String>,
     pub alias: Option<String>,
 }
@@ -18,7 +18,7 @@ impl From<REntity> for Entity {
     fn from(value: REntity) -> Self {
         Self {
             id: value.id,
-            name: value.name.map(|v| v.to_string()).into(),
+            name: value.name.to_string(),
             description: value.description.map(|v| v.to_string()).into(),
             alias: value.alias.map(|v| v.to_string()).into(),
         }
