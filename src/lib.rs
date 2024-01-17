@@ -1,6 +1,3 @@
-mod extension;
-pub use extension::Entity;
-
 use abi_stable::{
     declare_root_module_statics,
     library::RootModule,
@@ -39,4 +36,47 @@ pub struct REntity {
     pub name: RString,
     pub description: ROption<RString>,
     pub alias: ROption<RString>,
+}
+
+impl REntity {
+    pub fn builder(id: u64, name: &str) -> REntityBuilder {
+        REntityBuilder::new(id, name)
+    }
+}
+
+pub struct REntityBuilder<'a> {
+    id: u64,
+    name: &'a str,
+    description: Option<&'a str>,
+    alias: Option<&'a str>,
+}
+
+impl<'a> REntityBuilder<'a> {
+    pub fn new(id: u64, name: &'a str) -> Self {
+        REntityBuilder {
+            id,
+            name,
+            description: None,
+            alias: None,
+        }
+    }
+
+    pub fn description(mut self, description: &'a str) -> Self {
+        self.description = Some(description);
+        self
+    }
+
+    pub fn alias(mut self, alias: &'a str) -> Self {
+        self.alias = Some(alias);
+        self
+    }
+
+    pub fn build(self) -> REntity {
+        REntity {
+            id: self.id,
+            name: RString::from(self.name),
+            description: self.description.map(RString::from).into(),
+            alias: self.alias.map(RString::from).into(),
+        }
+    }
 }
