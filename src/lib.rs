@@ -3,7 +3,7 @@ use abi_stable::{
     library::RootModule,
     package_version_strings,
     sabi_types::VersionStrings,
-    std_types::{RBoxError, ROption, RResult, RString, RVec},
+    std_types::{RBoxError, ROption, RResult, RStr, RString, RVec},
     StableAbi,
 };
 
@@ -13,7 +13,7 @@ use abi_stable::{
 pub struct Plugin {
     pub on_mount: extern "C" fn() -> RResult<(), RBoxError>,
     pub entities: extern "C" fn() -> RResult<RVec<REntity>, RBoxError>,
-    pub on_entity_action: extern "C" fn(u64) -> RResult<(), RBoxError>,
+    pub on_entity_action: extern "C" fn(u64, ROption<RStr>) -> RResult<(), RBoxError>,
     #[sabi(last_prefix_field)]
     pub on_dispose: extern "C" fn() -> RResult<(), RBoxError>,
 }
