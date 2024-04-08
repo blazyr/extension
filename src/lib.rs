@@ -1,11 +1,26 @@
+pub mod ui;
+
 use abi_stable::{
     declare_root_module_statics,
     library::RootModule,
     package_version_strings,
     sabi_types::VersionStrings,
-    std_types::{RBoxError, ROption, RResult, RStr, RString, RVec},
+    std_types::{
+        RBoxError, ROption,
+        RResult::{self},
+        RStr, RString, RVec,
+    },
     StableAbi,
 };
+use ui::{RComponent, RComponentClickable};
+
+#[repr(C)]
+#[derive(Debug, Clone, PartialEq, Eq, StableAbi)]
+pub enum REntityActionResponse {
+    Ui(RComponent),
+    Text(RString),
+    None,
+}
 
 #[repr(C)]
 #[derive(StableAbi)]
@@ -13,9 +28,11 @@ use abi_stable::{
 pub struct Plugin {
     pub on_mount: extern "C" fn() -> RResult<(), RBoxError>,
     pub entities: extern "C" fn() -> RResult<RVec<REntity>, RBoxError>,
-    pub on_entity_action: extern "C" fn(u64, ROption<RStr>) -> RResult<(), RBoxError>,
-    #[sabi(last_prefix_field)]
+    pub on_entity_action:
+        extern "C" fn(u64, ROption<RStr>) -> RResult<REntityActionResponse, RBoxError>,
     pub on_dispose: extern "C" fn() -> RResult<(), RBoxError>,
+    #[sabi(last_prefix_field)]
+    pub component_clickable: extern "C" fn(RComponentClickable, RString) -> RResult<(), RBoxError>,
 }
 
 impl RootModule for Plugin_Ref {
