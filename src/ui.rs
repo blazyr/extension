@@ -8,7 +8,6 @@ use abi_stable::{
 pub enum RComponent {
     Container {
         child: ROption<RBox<RComponent>>,
-        on_click: ROption<RString>,
     },
     Column {
         children: ROption<RVec<RComponent>>,
@@ -16,12 +15,8 @@ pub enum RComponent {
     Row {
         children: ROption<RVec<RComponent>>,
     },
-}
-
-#[repr(C)]
-#[derive(Debug, Clone, PartialEq, Eq, StableAbi)]
-pub enum RComponentClickable {
-    Container,
-    Column,
-    Row,
+    Clickable {
+        on_click: ROption<RString>,
+        child: ROption<RBox<RComponent>>,
+    },
 }

@@ -12,7 +12,7 @@ use abi_stable::{
     },
     StableAbi,
 };
-use ui::{RComponent, RComponentClickable};
+use ui::RComponent;
 
 #[repr(C)]
 #[derive(Debug, Clone, PartialEq, Eq, StableAbi)]
@@ -32,7 +32,7 @@ pub struct Plugin {
         extern "C" fn(u64, ROption<RStr>) -> RResult<REntityActionResponse, RBoxError>,
     pub on_dispose: extern "C" fn() -> RResult<(), RBoxError>,
     #[sabi(last_prefix_field)]
-    pub component_clickable: extern "C" fn(RComponentClickable, RString) -> RResult<(), RBoxError>,
+    pub component_clickable: extern "C" fn(RString) -> RResult<(), RBoxError>,
 }
 
 impl RootModule for Plugin_Ref {
